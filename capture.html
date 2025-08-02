@@ -1,0 +1,71 @@
+<!-- capture.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Capture Your Fit</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #d8e9ff, #f0f6ff);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+      text-align: center;
+    }
+    h2 { color: #265ecf; }
+    .box {
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      max-width: 480px;
+      width: 100%;
+    }
+    video {
+      width: 100%;
+      border-radius: 12px;
+      margin-top: 15px;
+    }
+    button {
+      background-color: #3478f6;
+      color: white;
+      padding: 12px 20px;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      margin-top: 15px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h2>Click your fit</h2>
+  <div class="box">
+    <video id="video" autoplay muted playsinline></video>
+    <button id="capture">Capture Photo</button>
+    <canvas id="canvas" style="display: none;"></canvas>
+  </div>
+
+  <script>
+    const video = document.getElementById('video');
+    const capture = document.getElementById('capture');
+    const canvas = document.getElementById('canvas');
+
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(stream => { video.srcObject = stream; })
+      .catch(err => alert('Webcam not available.'));
+
+    capture.addEventListener('click', () => {
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      canvas.getContext('2d').drawImage(video, 0, 0);
+      const imageData = canvas.toDataURL('image/png');
+      sessionStorage.setItem('capturedImage', imageData);
+      window.location.href = 'view.html';
+    });
+  </script>
+</body>
+</html>
