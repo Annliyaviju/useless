@@ -1,5 +1,5 @@
 
-[Project Name] 🎯 FitCheck.AI
+ 🎯 FitCheck.AI
 
 Basic Details
 
